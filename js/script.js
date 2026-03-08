@@ -36,7 +36,17 @@ const chatForm = document.getElementById('chat-form');
 const messageInput = document.getElementById('message-input');
 
 // --- App State ---
-let currentUser = '';
+let currentUser = localStorage.getItem('chatUsername') || '';
+
+// --- Initialization ---
+if (currentUser) {
+    // User already logged in, skip setup screen
+    setupContainer.classList.add('hidden');
+    chatMain.classList.remove('hidden');
+    chatFooter.classList.remove('hidden');
+    messageInput.focus();
+    setupFirebaseListener();
+}
 
 // --- Event Listeners ---
 joinForm.addEventListener('submit', (e) => {
@@ -44,6 +54,7 @@ joinForm.addEventListener('submit', (e) => {
     const name = usernameInput.value.trim();
     if (name) {
         currentUser = name;
+        localStorage.setItem('chatUsername', name); // Save to local storage
         setupContainer.classList.add('hidden');
         chatMain.classList.remove('hidden');
         chatFooter.classList.remove('hidden');
