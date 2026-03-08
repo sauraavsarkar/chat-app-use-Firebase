@@ -97,12 +97,16 @@ body {
 }
 
 .btn-logout {
-    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
     background: transparent;
     color: var(--text-secondary);
     font-size: 0.85rem;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
 }
@@ -111,6 +115,21 @@ body {
     color: #ef4444;
     border-color: #ef4444;
     background: rgba(239, 68, 68, 0.1);
+}
+
+.header-user-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    object-fit: cover;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .header-info {
@@ -225,27 +244,51 @@ body {
     gap: 16px;
 }
 
-/* Message Item */
-.message {
+/* Message Row Container */
+.message-row {
     display: flex;
-    flex-direction: column;
-    max-width: 80%;
+    align-items: flex-end;
+    gap: 8px;
+    width: 100%;
     animation: fadeIn 0.3s ease-out forwards;
 }
 
+.message-row.received-row {
+    justify-content: flex-start;
+}
+
+.message-row.sent-row {
+    justify-content: flex-end;
+}
+
+.message-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Message Item inside Row */
+.message {
+    display: flex;
+    flex-direction: column;
+    max-width: 75%;
+}
+
 .message.received {
-    align-self: flex-start;
+    align-items: flex-start;
 }
 
 .message.sent {
-    align-self: flex-end;
+    align-items: flex-end;
 }
 
 .message-sender {
     font-size: 0.75rem;
     color: var(--text-secondary);
     margin-bottom: 4px;
-    margin-left: 4px;
+    margin-left: 12px;
 }
 
 .message-content {

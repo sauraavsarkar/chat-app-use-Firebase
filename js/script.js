@@ -34,6 +34,8 @@ const chatFooter = document.getElementById('chat-footer');
 const chatMessages = document.getElementById('chat-messages');
 const chatForm = document.getElementById('chat-form');
 const messageInput = document.getElementById('message-input');
+const headerActions = document.getElementById('header-actions');
+const headerAvatar = document.getElementById('header-avatar');
 const logoutButton = document.getElementById('logout-button');
 
 // --- App State ---
@@ -45,7 +47,8 @@ if (currentUser) {
     setupContainer.classList.add('hidden');
     chatMain.classList.remove('hidden');
     chatFooter.classList.remove('hidden');
-    logoutButton.classList.remove('hidden');
+    headerActions.classList.remove('hidden');
+    headerAvatar.src = getAvatarUrl(currentUser);
     messageInput.focus();
     setupFirebaseListener();
 }
@@ -60,7 +63,8 @@ joinForm.addEventListener('submit', (e) => {
         setupContainer.classList.add('hidden');
         chatMain.classList.remove('hidden');
         chatFooter.classList.remove('hidden');
-        logoutButton.classList.remove('hidden');
+        headerActions.classList.remove('hidden');
+        headerAvatar.src = getAvatarUrl(currentUser);
         messageInput.focus();
         
         // Setup Firebase Listener here once config is added
@@ -90,14 +94,19 @@ logoutButton.addEventListener('click', () => {
     location.reload();
 });
 
+// Helper to generate a consistent avatar using UI Avatars
+function getAvatarUrl(name) {
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff&bold=true`;
+}
+
 // --- Functions ---
 function appendMessage(messageData) {
     const li = document.createElement('li');
     
     // Determine if message is from the current user
     const isSentByMe = messageData.name === currentUser;
-    li.classList.add('message');
-    li.classList.add(isSentByMe ? 'sent' : 'received');
+    li.classList.add('message-row');
+    li.classList.add(isSentByMe ? 'sent-row' : 'received-row');
     
     // Format time
     let timeString = '';
@@ -106,11 +115,17 @@ function appendMessage(messageData) {
         timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
 
+    const avatarHtml = `<img src="${getAvatarUrl(messageData.name)}" class="message-avatar" alt="${escapeHTML(messageData.name)}">`;
+
     // Create message HTML
     li.innerHTML = `
-        ${!isSentByMe ? `<div class="message-sender">${escapeHTML(messageData.name)}</div>` : ''}
-        <div class="message-content">${escapeHTML(messageData.text)}</div>
-        ${timeString ? `<div class="message-time">${timeString}</div>` : ''}
+        ${!isSentByMe ? avatarHtml : ''}
+        <div class="message ${isSentByMe ? 'sent' : 'received'}">
+            ${!isSentByMe ? `<div class="message-sender">${escapeHTML(messageData.name)}</div>` : ''}
+            <div class="message-content">${escapeHTML(messageData.text)}</div>
+            ${timeString ? `<div class="message-time">${timeString}</div>` : ''}
+        </div>
+        ${isSentByMe ? avatarHtml : ''}
     `;
     
     chatMessages.appendChild(li);
