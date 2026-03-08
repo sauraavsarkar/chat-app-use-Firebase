@@ -63,6 +63,12 @@ logoutButton.addEventListener('click', () => {
     });
 });
 
+headerAvatar.addEventListener('click', () => {
+    if (currentUser) {
+        alert(`Profile Information:\n\nName: ${currentUser.displayName}\nEmail: ${currentUser.email}\nUID: ${currentUser.uid}`);
+    }
+});
+
 btnBackSidebar.addEventListener('click', () => {
     chatArea.classList.remove('mobile-active');
 });
