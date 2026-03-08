@@ -29,7 +29,6 @@ const chatForm = document.getElementById('chat-form');
 const messageInput = document.getElementById('message-input');
 const btnBack = document.getElementById('btn-back');
 const headerAvatar = document.getElementById('header-avatar');
-const logoutButton = document.getElementById('logout-button');
 
 // --- Modal Elements ---
 const profileModal = document.getElementById('profile-modal');
@@ -56,12 +55,6 @@ onAuthStateChanged(auth, (user) => {
 
 btnBack.addEventListener('click', () => {
     window.location.href = 'index.html';
-});
-
-logoutButton.addEventListener('click', () => {
-    signOut(auth).then(() => {
-        window.location.href = 'index.html';
-    });
 });
 
 headerAvatar.addEventListener('click', () => {
