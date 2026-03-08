@@ -35,11 +35,22 @@
         </header>
         
         <div class="setup-container" id="setup-container">
-            <h2>Welcome</h2>
-            <p>Please enter your name to join the chat.</p>
-            <form id="join-form">
-                <input type="text" id="username-input" placeholder="Your Name" autocomplete="off" required>
-                <button type="submit" class="btn-primary">Join Chat</button>
+            <h2 id="auth-title">Welcome Back</h2>
+            <p id="auth-subtitle">Log in to enter the chat.</p>
+            <form id="auth-form">
+                <div id="signup-fields" class="hidden">
+                    <input type="text" id="username-input" placeholder="Display Name (e.g. John)" autocomplete="off">
+                </div>
+                <input type="email" id="email-input" placeholder="Email Address" autocomplete="username" required>
+                <input type="password" id="password-input" placeholder="Password" autocomplete="current-password" required>
+                
+                <p class="error-msg hidden" id="auth-error"></p>
+                
+                <button type="submit" class="btn-primary" id="auth-submit">Log In</button>
+                <p class="auth-toggle">
+                    <span id="toggle-text">Don't have an account?</span> 
+                    <a href="#" id="toggle-auth">Sign Up</a>
+                </p>
             </form>
         </div>
 
