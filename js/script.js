@@ -34,6 +34,7 @@ const chatFooter = document.getElementById('chat-footer');
 const chatMessages = document.getElementById('chat-messages');
 const chatForm = document.getElementById('chat-form');
 const messageInput = document.getElementById('message-input');
+const logoutButton = document.getElementById('logout-button');
 
 // --- App State ---
 let currentUser = localStorage.getItem('chatUsername') || '';
@@ -44,6 +45,7 @@ if (currentUser) {
     setupContainer.classList.add('hidden');
     chatMain.classList.remove('hidden');
     chatFooter.classList.remove('hidden');
+    logoutButton.classList.remove('hidden');
     messageInput.focus();
     setupFirebaseListener();
 }
@@ -58,6 +60,7 @@ joinForm.addEventListener('submit', (e) => {
         setupContainer.classList.add('hidden');
         chatMain.classList.remove('hidden');
         chatFooter.classList.remove('hidden');
+        logoutButton.classList.remove('hidden');
         messageInput.focus();
         
         // Setup Firebase Listener here once config is added
@@ -80,6 +83,11 @@ chatForm.addEventListener('submit', (e) => {
         messageInput.value = '';
         messageInput.focus();
     }
+});
+
+logoutButton.addEventListener('click', () => {
+    localStorage.removeItem('chatUsername');
+    location.reload();
 });
 
 // --- Functions ---
