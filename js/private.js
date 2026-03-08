@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebas
 import { 
     getDatabase, ref, push, onChildAdded, onValue, serverTimestamp, off
 } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDO5-iu4q31R0-Au6TPwDDSh3Hk6zqXAUw",
@@ -34,6 +34,8 @@ const chatMain = document.getElementById('chat-main');
 const chatMessages = document.getElementById('chat-messages');
 const chatForm = document.getElementById('chat-form');
 const messageInput = document.getElementById('message-input');
+const headerAvatar = document.getElementById('header-avatar');
+const logoutButton = document.getElementById('logout-button');
 
 // --- App State ---
 let currentUser = null; 
@@ -44,6 +46,7 @@ let currentChatListenerRef = null;
 onAuthStateChanged(auth, (user) => {
     if (user) {
         currentUser = user;
+        headerAvatar.src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || "User")}&background=random&color=fff&bold=true`;
         loadUsersList();
     } else {
         window.location.href = 'index.html'; // Redirect to login
@@ -52,6 +55,12 @@ onAuthStateChanged(auth, (user) => {
 
 btnBackDashboard.addEventListener('click', () => {
     window.location.href = 'index.html';
+});
+
+logoutButton.addEventListener('click', () => {
+    signOut(auth).then(() => {
+        window.location.href = 'index.html';
+    });
 });
 
 btnBackSidebar.addEventListener('click', () => {
