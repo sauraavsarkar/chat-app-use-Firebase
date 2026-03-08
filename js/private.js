@@ -35,6 +35,7 @@ const chatMessages = document.getElementById('chat-messages');
 const chatForm = document.getElementById('chat-form');
 const messageInput = document.getElementById('message-input');
 const headerAvatar = document.getElementById('header-avatar');
+const userSearchInput = document.getElementById('user-search');
 
 // --- Modal Elements ---
 const profileModal = document.getElementById('profile-modal');
@@ -49,6 +50,7 @@ const modalLogout = document.getElementById('modal-logout');
 let currentUser = null; 
 let activeChatUserId = null;
 let currentChatListenerRef = null;
+let allUsers = []; // Store all users for filtering
 
 // Ensure User is Logged In
 onAuthStateChanged(auth, (user) => {
@@ -121,17 +123,32 @@ chatForm.addEventListener('submit', (e) => {
 function loadUsersList() {
     const usersRef = ref(db, 'users');
     onValue(usersRef, (snapshot) => {
-        usersList.innerHTML = '';
-        const users = snapshot.val();
-        if (users) {
-            Object.values(users).forEach(user => {
-                if (user.uid !== currentUser.uid) { // Don't show yourself
-                    appendUserToList(user);
-                }
-            });
+        const usersData = snapshot.val();
+        if (usersData) {
+            allUsers = Object.values(usersData).filter(user => user.uid !== currentUser.uid);
+            renderUserList(allUsers);
         }
     });
 }
+
+function renderUserList(usersToRender) {
+    usersList.innerHTML = '';
+    if (usersToRender.length === 0) {
+        usersList.innerHTML = '<li class="user-item-empty" style="padding: 20px; text-align: center; color: var(--text-secondary); font-size: 0.9rem;">No users found</li>';
+        return;
+    }
+    usersToRender.forEach(user => {
+        appendUserToList(user);
+    });
+}
+
+userSearchInput.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase().trim();
+    const filteredUsers = allUsers.filter(user => 
+        user.displayName.toLowerCase().includes(searchTerm)
+    );
+    renderUserList(filteredUsers);
+});
 
 function appendUserToList(user) {
     const li = document.createElement('li');
