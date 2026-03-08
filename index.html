@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Chat</title>
+    <meta name="description" content="A simple real-time chat application.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Application Logic (Modules allow Firebase SDK imports) -->
+    <script type="module" src="script.js" defer></script>
+</head>
+<body>
+    <div class="app-background"></div>
+    <div class="chat-container">
+        <header class="chat-header">
+            <div class="header-info">
+                <h1>ChatApp</h1>
+                <span class="status-indicator"></span>
+            </div>
+        </header>
+        
+        <div class="setup-container" id="setup-container">
+            <h2>Welcome</h2>
+            <p>Please enter your name to join the chat.</p>
+            <form id="join-form">
+                <input type="text" id="username-input" placeholder="Your Name" autocomplete="off" required>
+                <button type="submit" class="btn-primary">Join Chat</button>
+            </form>
+        </div>
+
+        <main class="chat-main hidden" id="chat-main">
+            <div class="messages-wrapper">
+                <ul id="chat-messages" class="messages-list">
+                    <!-- Messages will be injected here -->
+                </ul>
+            </div>
+        </main>
+        
+        <footer class="chat-footer hidden" id="chat-footer">
+            <form id="chat-form">
+                <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off" required>
+                <button type="submit" id="send-button" class="btn-icon" aria-label="Send message">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </form>
+        </footer>
+    </div>
+</body>
+</html>
