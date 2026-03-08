@@ -51,6 +51,7 @@ const toggleAuth = document.getElementById('toggle-auth');
 
 const appBody = document.getElementById('app-body');
 const usersList = document.getElementById('users-list');
+const globalChatBtn = document.getElementById('global-chat-btn');
 const emptyChatState = document.getElementById('empty-chat-state');
 const activeChatContainer = document.getElementById('active-chat-container');
 const chatArea = document.getElementById('chat-area');
@@ -138,7 +139,10 @@ chatForm.addEventListener('submit', (e) => {
     const text = messageInput.value.trim();
     
     if (text && currentUser && activeChatUserId) {
-        const chatId = [currentUser.uid, activeChatUserId].sort().join('_');
+        let chatId = 'global';
+        if (activeChatUserId !== 'global') {
+            chatId = [currentUser.uid, activeChatUserId].sort().join('_');
+        }
         const chatMessagesRef = ref(db, `chats/${chatId}/messages`);
         
         push(chatMessagesRef, {
@@ -166,6 +170,13 @@ function getAvatarUrl(name) {
 }
 
 // --- Dynamic Rendering Functions ---
+globalChatBtn.addEventListener('click', () => {
+    openChat({
+        uid: 'global',
+        displayName: 'Global Chat Room',
+        photoURL: 'https://ui-avatars.com/api/?name=Globe&background=3b82f6&color=fff&bold=true'
+    });
+});
 function loadUsersList() {
     const usersRef = ref(db, 'users');
     onValue(usersRef, (snapshot) => {
@@ -221,7 +232,10 @@ function openChat(targetUser) {
         chatArea.classList.add('mobile-active');
     }
     
-    const chatId = [currentUser.uid, targetUser.uid].sort().join('_');
+    let chatId = 'global';
+    if (targetUser.uid !== 'global') {
+        chatId = [currentUser.uid, targetUser.uid].sort().join('_');
+    }
     chatMessages.innerHTML = '';
     
     if (currentChatListenerRef) {
