@@ -31,6 +31,15 @@ const btnBack = document.getElementById('btn-back');
 const headerAvatar = document.getElementById('header-avatar');
 const logoutButton = document.getElementById('logout-button');
 
+// --- Modal Elements ---
+const profileModal = document.getElementById('profile-modal');
+const closeModal = document.getElementById('close-modal');
+const modalAvatar = document.getElementById('modal-avatar');
+const modalName = document.getElementById('modal-name');
+const modalEmail = document.getElementById('modal-email');
+const modalUid = document.getElementById('modal-uid');
+const modalLogout = document.getElementById('modal-logout');
+
 // --- App State ---
 let currentUser = null; 
 
@@ -57,8 +66,28 @@ logoutButton.addEventListener('click', () => {
 
 headerAvatar.addEventListener('click', () => {
     if (currentUser) {
-        alert(`Profile Information:\n\nName: ${currentUser.displayName}\nEmail: ${currentUser.email}\nUID: ${currentUser.uid}`);
+        modalAvatar.src = currentUser.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.displayName || "User")}&background=random&color=fff&bold=true`;
+        modalName.textContent = currentUser.displayName || "Unknown User";
+        modalEmail.textContent = currentUser.email;
+        modalUid.textContent = currentUser.uid;
+        profileModal.classList.remove('hidden');
     }
+});
+
+closeModal.addEventListener('click', () => {
+    profileModal.classList.add('hidden');
+});
+
+profileModal.addEventListener('click', (e) => {
+    if (e.target === profileModal) {
+        profileModal.classList.add('hidden');
+    }
+});
+
+modalLogout.addEventListener('click', () => {
+    signOut(auth).then(() => {
+        window.location.href = 'index.html';
+    });
 });
 
 chatForm.addEventListener('submit', (e) => {

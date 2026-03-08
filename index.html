@@ -68,5 +68,22 @@
             </a>
         </div>
     </div>
+
+    <!-- Profile Modal -->
+    <div id="profile-modal" class="modal-overlay hidden">
+        <div class="profile-card">
+            <button id="close-modal" class="btn-close">&times;</button>
+            <img id="modal-avatar" src="" alt="Avatar" class="modal-avatar-large">
+            <h3 id="modal-name">Name</h3>
+            <p id="modal-email" class="modal-email-text">Email</p>
+            <div class="profile-details-list">
+                <div class="detail-item">
+                    <span class="detail-label">User ID</span>
+                    <span id="modal-uid" class="detail-value">...</span>
+                </div>
+            </div>
+            <button id="modal-logout" class="btn-modal-logout">Logout</button>
+        </div>
+    </div>
 </body>
 </html>
